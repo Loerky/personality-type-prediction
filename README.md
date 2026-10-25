@@ -29,6 +29,7 @@ Note: the codebook also describes a type "Reserved", but this type does not appe
 ├── codebook.txt
 ├── data.csv
 ├── 01_eda_and_pipeline.ipynb
+├── 02_evaluation_and_tuning.ipynb
 ├── README.md
 ├── requirements.txt
 └── .gitignore
@@ -52,14 +53,19 @@ I used Python 3.13 on Windows.
 
 ## How to run
 
-Run the notebook `01_eda_and_pipeline.ipynb`. It checks and cleans the data, builds the preprocessing pipeline and trains two first models.
+1. Run the notebooks in order:
+   - `01_eda_and_pipeline.ipynb` – data check, cleaning, preprocessing pipeline, first models
+   - `02_evaluation_and_tuning.ipynb` – classification report, cross-validation, testing max_depth
 
 ## Results so far
 
-| Model | Accuracy |
-|---|---|
-| Random Forest | 0.842 |
-| Logistic Regression | 0.850 |
+| Model | Accuracy | F1-macro (5-fold CV) |
+|---|---|---|
+| Random Forest | 0.842 | 0.747 |
+| Random Forest (max_depth=20) | – | 0.748 |
+| Logistic Regression | 0.850 | – |
+
+F1-macro is the main metric, because the classes are not balanced.
 
 ## Data cleaning
 

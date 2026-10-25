@@ -55,14 +55,18 @@ COLUMN_ORDER = [
 
 # ----- load the model -----
 
+MODEL_DIR = Path(__file__).parent / "model"
+
 @st.cache_resource
 def load_model():
-    mlflow.set_tracking_uri(f"sqlite:///{DB_PATH.as_posix()}")
-    return mlflow.sklearn.load_model(f"runs:/{RUN_ID}/model")
-
+    if DB_PATH.exists():
+        # local: load the model from the MLflow run (like in the course)
+        mlflow.set_tracking_uri(f"sqlite:///{DB_PATH.as_posix()}")
+        return mlflow.sklearn.load_model(f"runs:/{RUN_ID}/model")
+    # online: load the model from the model folder in the repo
+    return mlflow.sklearn.load_model(str(MODEL_DIR))
 
 model = load_model()
-
 
 # ----- page -----
 

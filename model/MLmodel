@@ -1,0 +1,46 @@
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.13.15
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.9.1
+    skops_trusted_types: null
+is_signature_from_type_hint: false
+mlflow_version: 3.17.1
+model_id: null
+model_size_bytes: 2044638
+model_uuid: 34693375d7114bc1aaad1bb09d5d1580
+prompts: null
+saved_input_example_info:
+  artifact_path: input_example.json
+  pandas_orient: split
+  serving_input_path: serving_input_example.json
+  type: dataframe
+signature:
+  inputs: '[{"type": "double", "name": "N6", "required": true}, {"type": "double",
+    "name": "N8", "required": true}, {"type": "double", "name": "N7", "required":
+    true}, {"type": "double", "name": "N1", "required": true}, {"type": "double",
+    "name": "N9", "required": true}, {"type": "double", "name": "N10", "required":
+    true}, {"type": "double", "name": "N3", "required": true}, {"type": "double",
+    "name": "N5", "required": true}, {"type": "double", "name": "E3", "required":
+    true}, {"type": "double", "name": "N2", "required": true}, {"type": "double",
+    "name": "E5", "required": true}, {"type": "double", "name": "N4", "required":
+    true}, {"type": "double", "name": "E7", "required": true}, {"type": "double",
+    "name": "E4", "required": true}, {"type": "double", "name": "age", "required":
+    true}, {"type": "double", "name": "C4", "required": true}, {"type": "double",
+    "name": "E1", "required": true}, {"type": "double", "name": "A4", "required":
+    true}, {"type": "double", "name": "E10", "required": true}, {"type": "double",
+    "name": "E9", "required": true}, {"type": "string", "name": "gender", "required":
+    true}, {"type": "string", "name": "hand", "required": true}]'
+  outputs: '[{"type": "long", "required": true}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2026-10-25 19:22:35.083664'

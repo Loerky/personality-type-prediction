@@ -1,7 +1,7 @@
 # Personality Type Prediction
 
 This project predicts the personality type of a person from a short questionnaire.
-It is my final project for the AI/ML Engineering course at MSIT.
+It is my machine learning project for the AI/ML Engineering course at MSIT.
 
 A user answers 19 personality questions (1 = Disagree, 5 = Agree) and gives age, gender and writing hand.
 The model predicts one of four types:
@@ -52,8 +52,7 @@ I used Python 3.13 on Windows.
 
 ## How to run
 
-1. Run the notebooks in order:
-   - `01_eda_and_pipeline.ipynb` – data check, cleaning, preprocessing pipeline, first models
+Run the notebook `01_eda_and_pipeline.ipynb`. It checks and cleans the data, builds the preprocessing pipeline and trains two first models.
 
 ## Results so far
 

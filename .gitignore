@@ -1,0 +1,15 @@
+# virtual environment
+.venv/
+
+# python cache
+__pycache__/
+.ipynb_checkpoints/
+
+# mlflow files (created when running the project)
+mlflow.db
+mlruns/
+mlartifacts/
+
+# vs code
+*.code-workspace
+.vscode/

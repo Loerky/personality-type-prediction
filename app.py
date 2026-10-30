@@ -70,32 +70,61 @@ model = load_model()
 
 # ----- page -----
 
+st.set_page_config(page_title="Personality Type Prediction", layout="wide")
+
+# make the right column stay visible when scrolling (CSS trick)
+st.markdown(
+    """
+    <style>
+    div[data-testid="stColumn"]:nth-of-type(2) {
+        position: sticky;
+        top: 4rem;
+        align-self: flex-start;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 st.title("Personality Type Prediction")
 st.write("Answer the questions below. 1 = Disagree, 5 = Agree.")
 
+# two columns: questions on the left, result on the right
+left, right = st.columns(2)
+
 answers = {}
 
-st.header("About you")
-answers["age"] = st.number_input("Age", min_value=13, max_value=100, value=25)
-answers["gender"] = st.selectbox("Gender", ["Female", "Male", "Other"])
-answers["hand"] = st.selectbox("Writing hand", ["Right", "Left", "Both"])
+with left:
+    st.header("About you")
+    answers["age"] = st.number_input("Age", min_value=13, max_value=100, value=25)
+    answers["gender"] = st.selectbox("Gender", ["Female", "Male", "Other"])
+    answers["hand"] = st.selectbox("Writing hand", ["Right", "Left", "Both"])
 
-st.header("Questions")
-for code, text in QUESTIONS.items():
-    answers[code] = st.slider(text, 1, 5, 3)
+    st.header("Questions")
+    for code, text in QUESTIONS.items():
+        answers[code] = st.slider(text, 1, 5, 3)
 
-if st.button("Predict"):
-    # one row with all answers, in the right column order
-    input_df = pd.DataFrame([answers])[COLUMN_ORDER]
+    predict_clicked = st.button("Predict")
 
-    # probability for each of the 4 types (they add up to 1)
-    probabilities = model.predict_proba(input_df)[0]
+with right:
+    if predict_clicked:
+        # one row with all answers, in the right column order
+        input_df = pd.DataFrame([answers])[COLUMN_ORDER]
 
-    # the type with the highest probability is the prediction
-    best_index = int(probabilities.argmax())
-    personality_type = CLASSES[best_index]
-    confidence = probabilities[best_index]
+        # probability for each of the 4 types (they add up to 1)
+        probabilities = model.predict_proba(input_df)[0]
 
-    st.success(f"Your personality type: {personality_type}")
-    st.write(DESCRIPTIONS[personality_type])
-    st.metric("Confidence", f"{confidence:.0%}")
+        # the type with the highest probability is the prediction
+        best_index = int(probabilities.argmax())
+        personality_type = CLASSES[best_index]
+        confidence = probabilities[best_index]
+
+        st.header("Your result")
+        st.success(f"Your personality type: {personality_type}")
+        st.write(DESCRIPTIONS[personality_type])
+        st.metric("Confidence", f"{confidence:.0%}")
+
+        # one bar for each type
+        st.subheader("All types")
+        for name, probability in zip(CLASSES, probabilities):
+            st.progress(float(probability), text=f"{name}: {probability:.0%}")

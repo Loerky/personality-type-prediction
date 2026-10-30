@@ -88,8 +88,14 @@ if st.button("Predict"):
     # one row with all answers, in the right column order
     input_df = pd.DataFrame([answers])[COLUMN_ORDER]
 
-    prediction = model.predict(input_df)[0]
-    personality_type = CLASSES[int(prediction)]
+    # probability for each of the 4 types (they add up to 1)
+    probabilities = model.predict_proba(input_df)[0]
+
+    # the type with the highest probability is the prediction
+    best_index = int(probabilities.argmax())
+    personality_type = CLASSES[best_index]
+    confidence = probabilities[best_index]
 
     st.success(f"Your personality type: {personality_type}")
     st.write(DESCRIPTIONS[personality_type])
+    st.metric("Confidence", f"{confidence:.0%}")

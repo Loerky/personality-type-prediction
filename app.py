@@ -22,6 +22,16 @@ DESCRIPTIONS = {
     "Undercontroller": "Impulsive, less focused on rules.",
 }
 
+
+# precision on the test data (classification report in notebook 03):
+# when the model predicts this type, how often is it correct?
+TEST_PRECISION = {
+    "Moderate": 0.83,
+    "Overcontroller": 0.86,
+    "Resilient": 0.97,
+    "Undercontroller": 0.62,
+}
+
 # the 19 questions from codebook.txt
 QUESTIONS = {
     "N1": "I get stressed out easily.",
@@ -124,7 +134,17 @@ with right:
         st.write(DESCRIPTIONS[personality_type])
         st.metric("Confidence", f"{confidence:.0%}")
 
-        # one bar for each type
-        st.subheader("All types")
-        for name, probability in zip(CLASSES, probabilities):
-            st.progress(float(probability), text=f"{name}: {probability:.0%}")
+        
+        # how reliable is the model for this type? (test data)
+        st.subheader("How reliable is this result?")
+        precision = TEST_PRECISION[personality_type]
+        st.write(
+            f"When the model says **{personality_type}**, "
+            f"it was right in {precision:.0%} of the cases in the test data."
+        )
+        if personality_type == "Undercontroller":
+            st.warning("This type is the hardest for the model. Take this result with care.")
+
+        tiles = st.columns(4)
+        for tile, (name, value) in zip(tiles, TEST_PRECISION.items()):
+            tile.metric(name, f"{value:.0%}")
